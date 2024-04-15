@@ -1,0 +1,87 @@
+name: pipeline4142115/aws_test
+on:
+  push:
+  workflow_dispatch:
+concurrency:
+  group: "${{ github.ref }}"
+  cancel-in-progress: true
+env:
+  AWS_ACCESS_KEY_ID_DEV: dev_123
+  AWS_SECRET_ACCESS_KEY_DEV: dev_secretkey
+jobs:
+  create_table_dev:
+    runs-on: ubuntu-latest
+    if: (github.ref == 'refs/heads//dev_release_[0-9]+(?:.[0-9]+)+$/' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/feature/testing_poc')
+    timeout-minutes: 60
+    env:
+      ENV: dev
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID_DEV}"
+      AWS_DEFAULT_REGION: "${AWS_SECRET_ACCESS_KEY_DEV}"
+      AWS_SECRET_ACCESS_KEY: eu-central-1
+    steps:
+    - uses: actions/checkout@v4.1.0
+      with:
+        fetch-depth: 20
+        lfs: true
+    - run: echo export vault keys
+    - run: echo export vault keys from hashicarp vault
+    - run: echo create new table for specific env
+    - run: echo ${AWS_ACCESS_KEY_ID}
+    - run: echo ${AWS_SECRET_ACCESS_KEY_DEV}
+  create_table_test:
+    runs-on: ubuntu-latest
+    container:
+      image: amazon/aws-cli
+    if: github.ref == 'refs/heads//test_release_[0-9]+(?:.[0-9]+)+$/'
+    timeout-minutes: 60
+    env:
+      ENV: dev
+      AWS_ACCESS_KEY_ID: your_access_key_id
+      AWS_DEFAULT_REGION: your_aws_region
+      AWS_SECRET_ACCESS_KEY: your_secret_access_key
+    steps:
+    - uses: actions/checkout@v4.1.0
+      with:
+        fetch-depth: 20
+        lfs: true
+    - run: echo export vault keys
+    - run: echo export vault keys from hashicarp vault
+    - run: echo create new table for specific env
+  create_table_stage:
+    runs-on: ubuntu-latest
+    container:
+      image: amazon/aws-cli
+    if: github.ref == 'refs/heads//stage_release_[0-9]+(?:.[0-9]+)+$/'
+    timeout-minutes: 60
+    env:
+      ENV: dev
+      AWS_ACCESS_KEY_ID: your_access_key_id
+      AWS_DEFAULT_REGION: your_aws_region
+      AWS_SECRET_ACCESS_KEY: your_secret_access_key
+    steps:
+    - uses: actions/checkout@v4.1.0
+      with:
+        fetch-depth: 20
+        lfs: true
+    - run: echo export vault keys
+    - run: echo export vault keys from hashicarp vault
+    - run: echo create new table for specific env
+  create_table_prod:
+    runs-on: ubuntu-latest
+    container:
+      image: amazon/aws-cli
+    if: github.ref == 'refs/heads//prod_release_[0-9]+(?:.[0-9]+)+$/'
+    timeout-minutes: 60
+    env:
+      ENV: dev
+      AWS_ACCESS_KEY_ID: your_access_key_id
+      AWS_DEFAULT_REGION: your_aws_region
+      AWS_SECRET_ACCESS_KEY: your_secret_access_key
+    steps:
+    - uses: actions/checkout@v4.1.0
+      with:
+        fetch-depth: 20
+        lfs: true
+    - run: echo export vault keys
+    - run: echo export vault keys from hashicarp vault
+    - run: echo create new table for specific env
